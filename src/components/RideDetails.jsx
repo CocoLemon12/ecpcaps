@@ -215,7 +215,13 @@ const RideDetails = () => {
         ctx.drawImage(img, 0, 0);
         resolve(canvas.toDataURL("image/png"));
       };
-      img.src = "/assets/ecoridelogo.png";
+      img.onerror = function() {
+        // Fallback to empty image if logo fails to load
+        resolve('');
+      };
+      // Use the public URL from your deployment
+      const baseUrl = process.env.PUBLIC_URL || '';
+      img.src = `${baseUrl}/assets/ecoridelogo.png`;
     });
 
   const generatePdf = async () => {
